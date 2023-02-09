@@ -1,46 +1,83 @@
 const recipeRouter = require("express").Router();
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-const axios = require("axios");
-const { Recipe, Diet, DishTypes } = require("../../db");
-require("dotenv").config();
-const { API_KEY } = process.env; // se desestructura la api key desde el .env para obtener el dato
+
+const {
+  checkRecipe,
+  checkDiet,
+  checkDish,
+  getApiInfo,
+  getDBInfo,
+  createRecipe,
+  saveDiet,
+  saveDish,
+  dietIdSearch,
+  dishIdSearch,
+  apiById,
+  dbById,
+} = require("../controllers/controllers.js");
 
 recipeRouter.get("/", async (req, res) => {
   try {
     const { name } = req.query;
-    let recipes = [];
     // traer la info de la API
 
-    let responseAPI = await axios(
-      `https://api.spoonacular.com/recipes/complexSearch?query=${name}&addRecipeInformation=true&number=100&apiKey=${API_KEY}`
-    );
+    const dbRecipes = await getDBInfo(name);
+    const apiRecipes = await getApiInfo(name);
+    if (!apiRecipes && !dbRecipes) throw Error("No existen recetas");
 
-    if (responseAPI) {
-      recipes = responseAPI.data.results.map((recipe) => {
-        return {
-          id: recipe.id,
-          name: recipe.title,
-          summary: recipe.summary,
-          healthScore: recipe.healthScore,
-          image: recipe.image,
-          diets: recipe.diets,
-          dishTypes: recipe.dishTypes,
-          instructions: recipe.analyzedInstructions,
-        };
-      });
-      //    let responseDB = await Recipe.findAll({
-      //         where: {
-      //         title: {
-      //             [Op.iLike]: `%${name}%`,
-      //         }},
-      //     });
+    const infoTotal = apiRecipes.concat(dbRecipes);
 
-      //     recipes = recipes.concat(responseDB);
-    }
-    res.status(200).send(recipes);
+    res.status(200).send(infoTotal);
   } catch (error) {
     res.status(404).send("No se encontraron recetas con ese nombre");
+  }
+});
+
+recipeRouter.get("/:idRecipe", async (req, res) => {
+  try {
+    const { idRecipe } = req.params;
+    let recipe = {};
+    if (Number(idRecipe)) {
+      recipe = await apiById(idRecipe)
+    } else { recipe = await dbById(idRecipe)}
+    res.json(recipe)
+  } catch (error) {
+    res.status(404).send('No existe receta con ese ID');
+  }
+});
+
+recipeRouter.post("/", async (req, res) => {
+  try {
+    const {
+      title,
+      summary,
+      healthScore,
+      image,
+      diets,
+      dishTypes,
+      instructions,
+    } = req.body;
+    if (!title || !summary) throw Error("Faltan datos");
+
+    let ArrayDieta = diets.split(",").map((e) => e.trim());
+    let ArrayDish = dishTypes.split(",").map((e) => e.trim());
+
+    let recipe = { title, healthScore, summary, instructions, image };
+
+    if (await checkRecipe(title)) {
+      let creado = await createRecipe(recipe);
+
+      await saveDiet(ArrayDieta);
+      await saveDish(ArrayDish);
+
+      await creado.addDiet(await dietIdSearch(ArrayDieta)); // addDiet y addDishTypes son metodos de los modelos, se usan con un registro que hayas creado y se vinculan a la tabla de Diets y a la tabla de DishType. Basicamente te vincula esa instancia creada con los valores del modelo que le indicas con el add o el set
+      await creado.addDishTypes(await dishIdSearch(ArrayDish));
+    } else throw Error("La receta ya existe en la base de datos");
+
+    res.status(201).send(`La receta ${title} se ha creado correctamente`);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 });
 

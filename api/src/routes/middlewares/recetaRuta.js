@@ -15,7 +15,7 @@ const {
   dishIdSearch,
   apiById,
   dbById,
-} = require("../controllers/controllers.js");
+} = require("../controllers/recetas.controllers.js");
 
 recipeRouter.get("/", async (req, res) => {
   try {
@@ -38,7 +38,7 @@ recipeRouter.get("/:idRecipe", async (req, res) => {
   try {
     const { idRecipe } = req.params;
     let recipe = {};
-    if (Number(idRecipe)) {
+    if (Boolean(Number(idRecipe))) {
       recipe = await apiById(idRecipe)
     } else { recipe = await dbById(idRecipe)}
     res.json(recipe)
@@ -58,6 +58,7 @@ recipeRouter.post("/", async (req, res) => {
       dishTypes,
       instructions,
     } = req.body;
+    
     if (!title || !summary) throw Error("Faltan datos");
 
     let ArrayDieta = diets.split(",").map((e) => e.trim());
@@ -65,11 +66,11 @@ recipeRouter.post("/", async (req, res) => {
 
     let recipe = { title, healthScore, summary, instructions, image };
 
-    if (await checkRecipe(title)) {
+    if (await checkRecipe(title, 'recipe')) {
       let creado = await createRecipe(recipe);
 
-      await saveDiet(ArrayDieta);
-      await saveDish(ArrayDish);
+      await saveDiet(ArrayDieta, 'diet');
+      await saveDish(ArrayDish, 'dish');
 
       await creado.addDiet(await dietIdSearch(ArrayDieta)); // addDiet y addDishTypes son metodos de los modelos, se usan con un registro que hayas creado y se vinculan a la tabla de Diets y a la tabla de DishType. Basicamente te vincula esa instancia creada con los valores del modelo que le indicas con el add o el set
       await creado.addDishTypes(await dishIdSearch(ArrayDish));

@@ -40,14 +40,14 @@ export default function CardsContainer({typesAll,setCurrPage, setOrder}) {
 }
 
 function handleFilterByOrder(evt){
-    evt.preventDefault()
+    //evt.preventDefault()
     dispatch(filterByOrder(evt.target.value))
     setCurrPage(1)
     setOrder(`${evt.target.value}`)
 }
 
 function handleOrderByScore(evt){
-    evt.preventDefault()
+    //evt.preventDefault()
     dispatch(orderByScore(evt.target.value))
     setCurrPage(1)
     setOrder(`${evt.target.value}`)

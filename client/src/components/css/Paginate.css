@@ -2,6 +2,9 @@
     display: flex;
     width: 90%;
     justify-content: center;
+    height: 30px;
+    z-index: 1;
+    margin-bottom: 20px;
 }
 
 .paginado ul{
@@ -12,17 +15,16 @@
 .paginado li{
     list-style: none;
     float: left;
-
+    cursor: pointer;
+    z-index: 3;
+    padding: 5px;
 }
 
 .paginado li a{
-    padding: 10px;
-    cursor: pointer;
+    padding: 5px;
+    border-radius: 100%;
 }
 
 .paginado li a:hover{
-    color: black;
-}
-.paginado li a:active{
     color: black;
 }

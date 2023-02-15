@@ -8,3 +8,13 @@
     width: 100%;
     justify-content: center;
 }
+.filtros select{
+    font-family: 'Kanit', sans-serif !important;
+    font-weight: 300;
+    margin: 0 5px;
+    border: none;
+    color: #ee4800;
+    background-color: #ddd7cf;
+    padding: 7px;
+    border-radius: 25px;
+}

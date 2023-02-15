@@ -6,7 +6,7 @@ export default function Card({ name, diets, healthScore, image }) {
     <div className="carta">
       <h2>{name}</h2>
       <img src={image} alt={name} />
-      <p>Saludable: %{healthScore}</p>
+      <p>Saludable: {healthScore}%</p>
       <div className="dieta">
       <h4>Tipo de Dieta</h4>
       <ul>

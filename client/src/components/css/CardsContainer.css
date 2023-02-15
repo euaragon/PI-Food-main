@@ -17,4 +17,11 @@
     background-color: #ddd7cf;
     padding: 7px;
     border-radius: 25px;
+    cursor: pointer;
+}
+
+.filtros button{
+    color: #fff;
+    font-weight: 400;
+    font-size: 9pt;
 }

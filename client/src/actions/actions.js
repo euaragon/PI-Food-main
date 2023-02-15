@@ -2,9 +2,9 @@ import axios from 'axios';
 export const GET_RECIPES = 'GET_RECIPES'
 export const GET_TYPES = 'GET_TYPES'
 export const GET_DATABASE = 'GET_DATABASE'
-export const FILTER_BY_ORDER = 'FILTER_BY_ORDER'
+export const FILTER_BY_TYPE = "FILTER_BY_TYPE"
+export const ORDER_BY_NAME = 'ORDER_BY_NAME'
 export const ORDER_BY_SCORE = 'ORDER_BY_SCORE'
-export const FILTER_BY_DIETS = 'FILTER_BY_DIETS'
 
 export function getRecipes(){
    
@@ -20,9 +20,6 @@ export function getRecipes(){
         alert(error)
        }
     }
-
-
-    
 }
 
 export function getTypes() {
@@ -41,37 +38,23 @@ export function getTypes() {
     }
 }
 
-export function getDatabase() {
-    return async function (dispatch) {
-        try {
-            let dataBase = await axios.get('http://localhost:3001/recipes/dates')
-            return dispatch({
-                type: GET_DATABASE,
-                payload: dataBase.data
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    }
-}
-
-export function getFilterByDiets(payload){
+export function filterRecipesByType(payload){
     return {
-        type: FILTER_BY_DIETS,
-        payload: payload
-    }
-}
-
-export function filterByOrder(payload){
-    return {
-        type: FILTER_BY_ORDER,
-        payload: payload
+        type: FILTER_BY_TYPE,
+        payload
     }
 }
 
 export function orderByScore(payload){
     return{
         type: ORDER_BY_SCORE,
-        payload: payload
+        payload
+    }
+}
+
+export function orderByName(payload){
+    return{
+        type: ORDER_BY_NAME,
+        payload
     }
 }

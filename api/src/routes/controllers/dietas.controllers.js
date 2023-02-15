@@ -1,6 +1,6 @@
 require("dotenv").config();
-import axios from "axios";
-import { Diets } from "../../db";
+const axios = require("axios");
+const { Diets } = require("../../db");
 
 const { API_KEY } = process.env;
 
@@ -9,7 +9,9 @@ const traerDietaApi = async () => {
       `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`
     );
     let diets = responseAPI.data.results.map((recipe) => recipe.diets).flat(2).map(d => `${d[0].toUpperCase()}${d.substring(1)}`);
-  
+      //normalizamos la info dejando la primera letra en mayusculas
+     
+
     return diets;
   }
   
@@ -27,7 +29,7 @@ const crearDieta = async () => {
 
     let dbDiets = await traerDietaDB();
 
-    if (dbDiets.length === 0) {
+    if (dbDiets.length === 0) { // si no tenemos ninguna dieta, creamos las basicas
         let basicDiets = [
           { name: "Gluten free" },
           { name: "Ketogenic" },
@@ -49,11 +51,11 @@ const traerDietas = async () => {
     const apiDiets = await traerDietaApi();
     const dbDiets = await traerDietaDB();
   
-    let diets = apiDiets.concat(dbDiets).flat(2);
+    let diets = apiDiets.concat(dbDiets).flat(2); //concatenamos la info en un array de una unica dimension
   
-    let setDiets = new Set(diets);
+    let setDiets = new Set(diets); //evitamos los repetidos
   
     return [...setDiets];
   }
 
-export default {crearDieta, traerDietas}
+module.exports = {crearDieta, traerDietas}

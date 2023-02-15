@@ -1,0 +1,57 @@
+.carta {
+  display: inline-block;
+  width: 300px;
+  margin: 30px;
+  background-color: #ddd7cf;
+  box-shadow: 10px 10px 0px -5px #ee4800;
+  -webkit-box-shadow: 10px 10px 0px -5px #ee4800;
+  -moz-box-shadow: 10px 10px 0px -5px #ee4800;
+  border: 1px solid #ee4800;
+  border-radius: 38px;
+  cursor: pointer;
+}
+
+.carta:hover {
+  background-color: #ffffff;
+  opacity: 0.9;
+}
+
+.carta h2 {
+    font-size: 12pt;
+    text-align: left;
+    margin-left: 25px;
+    padding: 30px;
+    margin: 0 auto;
+}
+
+.carta img {
+  width: 300px;
+  position: relative;
+  top: 7px;
+}
+
+.carta p {
+  font-size: 10pt;
+  display: inline;
+}
+.carta ul {
+  padding: 0;
+  width: 50%;
+  float: right;
+}
+.carta h4 {
+  width: 50%;
+  float: left;
+  font-size: 11pt;
+}
+.carta li {
+  list-style: none;
+  font-size: 10pt;
+}
+
+.dieta {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 20px;
+}

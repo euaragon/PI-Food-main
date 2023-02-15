@@ -1,10 +1,24 @@
-import './App.css';
+import "./App.css";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Landing from "./components/Landing";
+import Home from "./components/Home";
+//import FoodCreate from "./components/FoodCreate"
+import Nav from './components/Nav';
+
 
 function App() {
+  const location = useLocation()
   return (
+
     <div className="App">
-      <h1>Henry Food</h1>
+      {location.pathname !== "/" && <Nav/>}
+      <Routes>
+        <Route exact path="/" element={<Landing/>} />
+        <Route path="/home" element={<Home/>} />
+        {/* <Route path="/foodcreate" element={<FoodCreate/>} /> */}
+      </Routes>
     </div>
+
   );
 }
 

@@ -1,0 +1,35 @@
+
+
+button{
+  font-family: 'Kanit', sans-serif !important;
+  cursor: pointer;
+  border: none;
+  padding: 5px 20px;
+  border-radius: 40px;
+  position: relative;
+}
+
+.entrar{
+  background: #802599 !important;
+  color: #ffffff;
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+}
+
+button:hover{
+  opacity: 0.8;
+}
+
+.ingresar {
+  text-align: center;
+    background-image: url("../../img/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    width: 100vw;
+    padding-top: 180px;
+    display: inline-block;
+    align-items: center;
+  }

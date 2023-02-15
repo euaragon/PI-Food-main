@@ -38,12 +38,14 @@ recipeRouter.get("/:idRecipe", async (req, res) => {
   try {
     const { idRecipe } = req.params;
     let recipe = {};
-    if (Boolean(Number(idRecipe))) {
-      recipe = await apiById(idRecipe)
-    } else { recipe = await dbById(idRecipe)}
-    res.json(recipe)
+    if (Boolean(Number(idRecipe))) { //aca lo que hago es ver desde donde sale el ID, entonces preguntamos si el ID es solo un numero, toma la info de la API. En cambio, si el ID tiene letras y numeros, nos va a dar false y va a tomar la info de la DB
+      recipe = await apiById(idRecipe);
+    } else {
+      recipe = await dbById(idRecipe);
+    }
+    res.json(recipe);
   } catch (error) {
-    res.status(404).send('No existe receta con ese ID');
+    res.status(404).send("No existe receta con ese ID");
   }
 });
 
@@ -58,7 +60,7 @@ recipeRouter.post("/", async (req, res) => {
       dishTypes,
       instructions,
     } = req.body;
-    
+
     if (!title || !summary) throw Error("Faltan datos");
 
     let ArrayDieta = diets.split(",").map((e) => e.trim());
@@ -66,14 +68,14 @@ recipeRouter.post("/", async (req, res) => {
 
     let recipe = { title, healthScore, summary, instructions, image };
 
-    if (await checkRecipe(title, 'recipe')) {
-      let creado = await createRecipe(recipe);
+    if (await checkRecipe(title, "recipe")) {
+      let creado = await createRecipe(recipe); //creamos la receta, guardamos el registro ya creado
 
-      await saveDiet(ArrayDieta, 'diet');
-      await saveDish(ArrayDish, 'dish');
+      await saveDiet(ArrayDieta, "diet");
+      await saveDish(ArrayDish, "dish");
 
-      await creado.addDiet(await dietIdSearch(ArrayDieta)); // addDiet y addDishTypes son metodos de los modelos, se usan con un registro que hayas creado y se vinculan a la tabla de Diets y a la tabla de DishType. Basicamente te vincula esa instancia creada con los valores del modelo que le indicas con el add o el set
-      await creado.addDishTypes(await dishIdSearch(ArrayDish));
+      await creado.addDiet(await dietIdSearch(ArrayDieta, "dietId")); // addDiet y addDishTypes son metodos de los modelos, se usan con un registro que hayas creado y se vinculan a la tabla de Diets y a la tabla de DishType. Basicamente te vincula esa instancia creada con los valores del modelo que le indicas con el add o el set
+      await creado.addDishTypes(await dishIdSearch(ArrayDish, "dishId")); // vinculamos con la receta creada
     } else throw Error("La receta ya existe en la base de datos");
 
     res.status(201).send(`La receta ${title} se ha creado correctamente`);

@@ -1,0 +1,32 @@
+a{
+    color: #ee4800;
+    font-size: 11pt;
+    font-weight: 800;
+}
+
+.buscador{
+    position: relative;
+    top: 50px;
+}
+
+.buscador input{
+    font-weight: 100;
+    border: none;
+    border-radius: 40px;
+    background: #e8e8e8;
+    padding: 3px 10px;
+    margin-right: 10px;
+}
+
+.buscar{
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.crear-receta{
+    margin-left: 100px;
+}
+
+.crear-receta:hover{
+    opacity: 0.8;
+}

@@ -22,7 +22,7 @@
 
 .paginado li a{
     padding: 5px;
-    border-radius: 100%;
+    font-weight: 700;
 }
 
 .paginado li a:hover{

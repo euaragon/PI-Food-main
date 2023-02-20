@@ -1,0 +1,49 @@
+.food-create{
+    margin-top: 160px;
+    font-weight: 200;
+    padding: 0 150px;
+    display: block;
+}
+
+.food-create button {
+    color: #fff;
+    font-size: 10pt;
+    font-weight: 400;
+    margin: 10px 0;
+}
+
+.food-create input{
+    font-weight: 100;
+    border: none;
+    border-radius: 40px;
+    background: #e8e8e8;
+    padding: 3px 10px;
+    margin-right: 10px;
+}
+
+.food-create span {
+    color: red;
+    font-size: 8pt;
+    margin-right: 20px;
+}
+
+.food-create label{
+    font-size: 10pt;
+    font-weight: 400;
+    margin: 0 20px;
+}
+
+.form {
+   min-height: 1080px;
+   width: 40%;
+    margin: 0 auto;
+}
+
+.options {
+    margin: 10px 0;
+    display: inline-flex;
+}
+
+.instructions{
+    height: 100px;
+}

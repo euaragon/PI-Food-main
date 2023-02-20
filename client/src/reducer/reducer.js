@@ -4,10 +4,15 @@ import {
   FILTER_BY_TYPE,
   ORDER_BY_NAME,
   ORDER_BY_SCORE,
+  GET_DETAILS,
+  GET_NAME,
 } from "../actions/actions";
 
 const initialState = {
   recipes: [],
+  recetasTotal: [],
+  detail: [],
+  type: [],
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -16,7 +21,7 @@ function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         recipes: payload,
-        recipesAll: payload,
+        recetasTotal: payload,
       };
 
     case GET_TYPES:
@@ -26,22 +31,19 @@ function rootReducer(state = initialState, { type, payload }) {
       };
 
     case FILTER_BY_TYPE:
-      const recipes_All = state.recipes;
-
-      const typeFilter =
-        payload === "Tipo"
-          ? state.recipes
-          : recipes_All.filter((recipe) => {
-              if (recipe.diets.length > 0) {
-                if (recipe.diets.find((element) => element === payload))
-                  return recipe;
-              }
-            });
-      return {
-        ...state,
-        recipes: typeFilter,
-      };
-
+      if(payload === "Todos"){
+        return {
+          ...state,
+          recetasTotal: state.recipes,
+        };
+      } 
+        return {
+          ...state,
+          recetasTotal: state.recipes.filter(e => e.diets.includes(payload)),
+        };
+  
+      
+      
     case ORDER_BY_NAME:
       let sortedArr =
         payload === "asc"
@@ -76,7 +78,17 @@ function rootReducer(state = initialState, { type, payload }) {
         ...state,
         recipes: scoreArr,
       };
-
+      case GET_DETAILS:
+        return{
+          ...state,
+          detail: payload
+        }
+        case GET_NAME:
+          return{
+            ...state,
+            recipes: payload,
+            recetasTotal: payload
+          }
     default:
       return state;
   }

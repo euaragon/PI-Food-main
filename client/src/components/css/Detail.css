@@ -1,0 +1,46 @@
+h3 {
+  color: #ee4800;
+}
+
+.det-cont {
+  padding-top: 200px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.detalle {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.cerrar {
+  font-size: 10pt;
+  font-weight: 300;
+  color: #fff;
+}
+
+.detalle h1 {
+  float: left;
+  width: 30%;
+  text-align: left;
+  margin-right: 40px;
+}
+.detalle img {
+  float: right;
+  width: 50%;
+  width:200px;
+  height:195px;
+  border-radius:150px;
+  box-shadow: 10px 10px 0px -5px #ee4800;
+  -webkit-box-shadow: 10px 10px 0px -5px #ee4800;
+  -moz-box-shadow: 10px 10px 0px -5px #ee4800;
+  border: 1px solid #ee4800;
+}
+
+.diets, .dish{
+    width: 50%;
+    float: left;
+    padding: 20px 0;
+    height: 290px;
+}

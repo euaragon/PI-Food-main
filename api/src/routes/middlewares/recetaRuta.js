@@ -3,31 +3,27 @@ const recipeRouter = require("express").Router();
 // Ejemplo: const authRouter = require('./auth.js');
 
 const {
-  checkRecipe,
-  checkDiet,
-  checkDish,
   getApiInfo,
   getDBInfo,
   createRecipe,
-  saveDiet,
-  saveDish,
-  dietIdSearch,
-  dishIdSearch,
   apiById,
   dbById,
+  checkAtt,
+  saveAtt,
+  attIdSearch
 } = require("../controllers/recetas.controllers.js");
 
 recipeRouter.get("/", async (req, res) => {
+
+
   try {
     const { name } = req.query;
     // traer la info de la API
-
     const dbRecipes = await getDBInfo(name);
     const apiRecipes = await getApiInfo(name);
     if (!apiRecipes && !dbRecipes) throw Error("No existen recetas");
 
-    const infoTotal = apiRecipes.concat(dbRecipes);
-
+    const infoTotal = dbRecipes.concat(apiRecipes);
     res.status(200).send(infoTotal);
   } catch (error) {
     res.status(404).send("No se encontraron recetas con ese nombre");
@@ -35,6 +31,7 @@ recipeRouter.get("/", async (req, res) => {
 });
 
 recipeRouter.get("/:idRecipe", async (req, res) => {
+
   try {
     const { idRecipe } = req.params;
     let recipe = {};
@@ -49,33 +46,36 @@ recipeRouter.get("/:idRecipe", async (req, res) => {
   }
 });
 
+
+
 recipeRouter.post("/", async (req, res) => {
   try {
     const {
       title,
-      summary,
       healthScore,
+      summary,
+      instructions,
       image,
       diets,
       dishTypes,
-      instructions,
     } = req.body;
+    
+    if (!title || !summary) throw Error("Faltan datos importantes");
 
-    if (!title || !summary) throw Error("Faltan datos");
-
-    let ArrayDieta = diets.split(",").map((e) => e.trim());
-    let ArrayDish = dishTypes.split(",").map((e) => e.trim());
+    let dietArr = diets.split(",").map((e) => e.trim());
+    let dishArr = dishTypes.split(",").map((e) => e.trim());
 
     let recipe = { title, healthScore, summary, instructions, image };
 
-    if (await checkRecipe(title, "recipe")) {
-      let creado = await createRecipe(recipe); //creamos la receta, guardamos el registro ya creado
+    if (await checkAtt(title, "recipe")) {
+      let createdRecipe = await createRecipe(recipe);
 
-      await saveDiet(ArrayDieta, "diet");
-      await saveDish(ArrayDish, "dish");
+      await saveAtt(dietArr, "diet");
+      await saveAtt(dishArr, "dish");
 
-      await creado.addDiet(await dietIdSearch(ArrayDieta, "dietId")); // addDiet y addDishTypes son metodos de los modelos, se usan con un registro que hayas creado y se vinculan a la tabla de Diets y a la tabla de DishType. Basicamente te vincula esa instancia creada con los valores del modelo que le indicas con el add o el set
-      await creado.addDishTypes(await dishIdSearch(ArrayDish, "dishId")); // vinculamos con la receta creada
+      await createdRecipe.addDiets(await attIdSearch(dietArr, "dietId"));
+      await createdRecipe.addDishTypes(await attIdSearch(dishArr, "dishId"));
+
     } else throw Error("La receta ya existe en la base de datos");
 
     res.status(201).send(`La receta ${title} se ha creado correctamente`);
@@ -102,3 +102,5 @@ Crea una receta en la base de datos relacionada con sus tipos de dietas.
 
 
 */
+
+

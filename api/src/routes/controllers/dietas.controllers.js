@@ -1,6 +1,6 @@
 require("dotenv").config();
 const axios = require("axios");
-const { Diets } = require("../../db");
+const { Diet } = require("../../db");
 
 const { API_KEY } = process.env;
 
@@ -10,18 +10,17 @@ const traerDietaApi = async () => {
     );
     let diets = responseAPI.data.results.map((recipe) => recipe.diets).flat(2).map(d => `${d[0].toUpperCase()}${d.substring(1)}`);
       //normalizamos la info dejando la primera letra en mayusculas
-     
 
     return diets;
   }
   
 const traerDietaDB = async () => {
-    let dbQuery = await Diets.findAll({
+    let dbQuery = await Diet.findAll({
       attributes: ["name"],
     });
   
     let diets = dbQuery.map((diet) => diet.dataValues.name);
-  
+
     return diets;
   }
 
@@ -43,7 +42,7 @@ const crearDieta = async () => {
           { name: "Low FODMAP" },
           { name: "Whole30" },
         ];
-        return await Diets.bulkCreate(basicDiets); // es un metodo de sequelize para insertar varios registros en una tabla de base de datos de un solo saque. Mete el array de objetos que declaramos antes en la DB
+        return await Diet.bulkCreate(basicDiets); // es un metodo de sequelize para insertar varios registros en una tabla de base de datos de un solo saque. Mete el array de objetos que declaramos antes en la DB
       } else return;
 }
 

@@ -1,69 +1,101 @@
 const axios = require("axios");
-require("dotenv").config();
 const { Op } = require("sequelize");
 const { Recipe, Diet, DishTypes } = require("../../db");
 const { API_KEY } = process.env; // se desestructura la api key desde el .env para obtener el dato
+require("dotenv").config();
 
 const checkRecipe = async (recipe) => {
   const check = await Recipe.findOne({
     where: {
       name: recipe,
     },
-  });
-  if (!check) return true;
-};
 
-const checkDiet = async (diet) => {
-  const check = await Diet.findOne({
-    where: {
-      name: diet,
-    },
-  });
-  if (!check) return true;
-};
-
-const checkDish = async (dish) => {
-  const check = await DishTypes.findOne({
-    where: {
-      name: dish,
-    },
   });
   if (!check) return true;
 };
 
 const getApiInfo = async (name) => {
- 
-  
-  const apiURL = await axios.get(
-    // `https://api.spoonacular.com/recipes/complexSearch?query=${name}&addRecipeInformation=true&number=100&apiKey=${API_KEY}`
+  const responseAPI = await axios(
     `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`
-    
   );
-  const apiInfo = apiURL.data.results.map((recipe) => {
-    // mapeamos la info que trae de la API para sacar solamente lo que me hace falta
-    const diets = recipe.diets.length > 0 ? recipe.diets : ["Ninguna"];
-    return {
+console.log(responseAPI);
+  let recipes = responseAPI.data.results.map((recipe) => {
+    const diets = recipe.diets.length > 1 ? recipe.diets.map(d => `${d[0].toUpperCase()}${d.substring(1)}`) : ["Ninguna"]
+    let newRecipe = {
       id: recipe.id,
       name: recipe.title,
-      summary: recipe.summary,
       healthScore: recipe.healthScore,
+      summary: recipe.summary,
+      instructions: recipe.analyzedInstructions,
       image: recipe.image,
       diets: diets,
-      dishTypes: recipe.dishTypes,
-      instructions: recipe.analyzedInstructions,
+      dishTypes: recipe.dishTypes.map(d => `${d[0].toUpperCase()}${d.substring(1)}`),
     };
+
+    let instructions = newRecipe.instructions
+      .map((i) => i.steps.map((s) => `${s.number}) ${s.step}`).join(" "))
+      .join();
+
+    newRecipe.instructions = instructions;
+
+    return newRecipe;
   });
-  return apiInfo;
+
+  if (name) {
+    recipes = recipes.filter((e) => e.name.includes(name));
+  }
+  
+  return recipes;
 };
 
 const getDBInfo = async (name) => {
-  return await Recipe.findAll({
-    where: {
-      title: {
-        [Op.iLike]: `%${name}%`,
+  let dbQuery = [];
+  if (name) {
+    dbQuery = await Recipe.findAll({
+      where: {
+        title: {
+          [Op.iLike]: `%${name}%`,
+        },
       },
-    },
-  });
+      include: [
+        {
+          model: Diet,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: DishTypes,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+  } else {
+    dbQuery = await Recipe.findAll({
+      include: [
+        {
+          model: Diet,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: DishTypes,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+  }
+
+  return dbNormalizer(dbQuery);
 };
 
 const createRecipe = async (obj) => {
@@ -71,10 +103,10 @@ const createRecipe = async (obj) => {
     title: obj.title,
     healthScore: obj.healthScore,
     summary: obj.summary,
-    instructions: obj.instructions,
+    analyzedInstructions: obj.instructions,
     image: obj.image,
   });
-  return recipe; //falta la relacion con las dietas 
+  return recipe; //falta la relacion con las dietas
 };
 
 const saveDiet = async () => {
@@ -85,6 +117,8 @@ const saveDiet = async () => {
   }
   return;
 };
+
+
 
 const saveDish = async () => {
   for (let dish of arr) {
@@ -123,24 +157,45 @@ const dishIdSearch = async (arr) => {
   return dishIds;
 };
 
-const apiById = async () => {
-  const getApiInfo = await axios(
-    `https://api.spoonacular.com/recipes/${id}/information&apiKey=${API_KEY}`
-  );
-
-  let recipes = getApiInfo.data.map((recipe) => {
+const apiByName = async(name) => {
+  const responseAPI = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${name}&addRecipeInformation=true&number=100&apiKey=${API_KEY}`);
+  const nombre = await responseAPI.map((recipe) => {
     return {
       id: recipe.id,
       title: recipe.title,
       healthScore: recipe.healthScore,
       summary: recipe.summary,
-      instructions: recipe.analyzedInstructions,
+      instructions: instructions,
       image: recipe.image,
-      diets: recipe.diets,
+      diets: recipe.diets || ["Ninguna"],
       dishTypes: recipe.dishTypes,
-    };
-  });
-  return recipes;
+    }
+  }
+  
+  )
+}
+
+const apiById = async (id) => {
+  const responseAPI = await axios.get(
+    `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
+  );
+
+  let recipe = responseAPI.data;
+
+  let instructions = recipe.analyzedInstructions
+    .map((i) => i.steps.map((s) => `${s.number}) ${s.step}`).join(" "))
+    .join();
+
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    healthScore: recipe.healthScore,
+    summary: recipe.summary,
+    instructions: instructions,
+    image: recipe.image,
+    diets: recipe.diets || ["-"],
+    dishTypes: recipe.dishTypes,
+  };
 };
 
 const dbById = async () => {
@@ -170,19 +225,19 @@ const dbById = async () => {
 
 const dbNormalizer = (query) => {
   //normalizamos la query
-  let recipes = query.map(recipe => {
+  let recipes = query.map((recipe) => {
     return {
       id: recipe.id,
-      title:recipe.title,
+      name: recipe.title,
       healthScore: recipe.healthScore,
       summary: recipe.summary,
       instructions: recipe.analyzedInstructions,
       image: recipe.image,
       diets: recipe.diets,
       dishTypes: recipe.dishTypes,
-    }
-  })
-  recipes.forEach(recipe => {
+    };
+  });
+  recipes.forEach((recipe) => {
     let mapDiets = recipe.diets.map((e) => e.name);
     recipe.diets = mapDiets;
 
@@ -190,12 +245,84 @@ const dbNormalizer = (query) => {
     recipe.dishTypes = mapDishes;
   });
   return recipes;
+};
+
+const checkAtt = async (att, str) => {
+  let check;
+  if (str === "diet") {
+    check = await Diet.findOne({
+      where: {
+        name: att,
+      },
+    });
+  }
+  if (str === "dish") {
+    check = await DishTypes.findOne({
+      where: {
+        name: att,
+      },
+    });
+  }
+  if (str === "recipe") {
+    check = await Recipe.findOne({
+      where: {
+        title: att,
+      },
+    });
+  }
+  if (!check) return true;
+}
+
+const saveAtt = async (arr, str) => {
+  if (str === "diet") {
+    for (let diet of arr) {
+      if (await checkAtt(diet, "diet")) {
+        await Diet.create({ name: diet });
+      }
+    }
+    return;
+  }
+  if (str === "dish") {
+    for (let dish of arr) {
+      if (await checkAtt(dish, "dish")) {
+        await DishTypes.create({ name: dish });
+      }
+    }
+    return;
+  }
+}
+
+const attIdSearch = async (arr, str) => {
+  if (str === "dishId") {
+    let dishIds = [];
+    for (dish of arr) {
+      let id = await DishTypes.findOne({
+        attributes: ["id"],
+        where: {
+          name: dish,
+        },
+      });
+      dishIds.push(id);
+    }
+    return dishIds;
+  }
+  if (str === "dietId") {
+    let dietIds = [];
+    for (let diet of arr) {
+      let id = await Diet.findOne({
+        attributes: ["id"],
+        where: {
+          name: diet,
+        },
+      });
+      dietIds.push(id);
+    }
+    return dietIds;
+  }
 }
 
 module.exports = {
   checkRecipe,
-  checkDiet,
-  checkDish,
   getApiInfo,
   getDBInfo,
   createRecipe,
@@ -205,4 +332,5 @@ module.exports = {
   dishIdSearch,
   apiById,
   dbById,
+  apiByName, checkAtt, saveAtt, attIdSearch
 };

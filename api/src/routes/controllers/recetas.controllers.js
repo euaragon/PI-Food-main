@@ -198,21 +198,21 @@ const apiById = async (id) => {
   };
 };
 
-const dbById = async () => {
+const dbById = async (id) => {
   const recipes = await Recipe.findOne({
     where: {
       id: id,
     },
     include: [
       {
-        model: Diets,
+        model: Diet,
         attributes: ["name"],
         through: {
           attributes: [],
         },
       },
       {
-        model: DishType,
+        model: DishTypes,
         attributes: ["name"],
         through: {
           attributes: [],

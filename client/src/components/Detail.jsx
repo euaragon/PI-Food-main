@@ -7,7 +7,7 @@ import Footer from "./Footer";
 export default function Detail() {
   const [recipe, setRecipe] = useState({
     id: "",
-    title: "",
+    name: "",
     healthScore: 0,
     summary: "",
     instructions: "",
@@ -45,7 +45,7 @@ export default function Detail() {
         volver
       </button>
       <div className="detalle">
-        <h1 className="title">{recipe.title}</h1>
+        <h1 className="title">{recipe.name || recipe.title}</h1>
         <img src={recipe.image} alt={recipe.title} />
       </div>
       <p>Saludable: {recipe.healthScore}%</p>

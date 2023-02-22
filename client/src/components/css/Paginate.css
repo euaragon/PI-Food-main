@@ -28,3 +28,8 @@
 .paginado li a:hover{
     color: black;
 }
+
+.active {
+background-color: #ee4800;
+    color: #ffffff;
+}

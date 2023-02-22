@@ -103,10 +103,10 @@ const createRecipe = async (obj) => {
     title: obj.title,
     healthScore: obj.healthScore,
     summary: obj.summary,
-    analyzedInstructions: obj.instructions,
+    steps: obj.instructions,
     image: obj.image,
   });
-  return recipe; //falta la relacion con las dietas
+  return recipe; 
 };
 
 const saveDiet = async () => {
@@ -231,7 +231,7 @@ const dbNormalizer = (query) => {
       name: recipe.title,
       healthScore: recipe.healthScore,
       summary: recipe.summary,
-      instructions: recipe.analyzedInstructions,
+      instructions: recipe.steps,
       image: recipe.image,
       diets: recipe.diets,
       dishTypes: recipe.dishTypes,

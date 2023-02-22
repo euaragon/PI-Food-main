@@ -88,7 +88,7 @@ export function getName(name){
                 payload: response.data
             })
         } catch (error) {
-            console.log(error);
+            console.log("Coloque algo senior");
         }
     }
 }

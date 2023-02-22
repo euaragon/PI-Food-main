@@ -3,6 +3,7 @@ import { useState } from "react";
 import validation from "./validation";
 import "./css/FoodCreate.css";
 import Footer from "./Footer";
+import Swal from "sweetalert";
 
 export default function FoodCreate() {
   async function createRecipe(userData) {
@@ -13,7 +14,8 @@ export default function FoodCreate() {
       },
       body: JSON.stringify(userData),
     });
-    return window.alert("Creado Correctamente");
+    Swal("Receta creada exitosamente!", "", "success");
+      return;
 
   }
 

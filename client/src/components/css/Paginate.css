@@ -28,3 +28,14 @@
 .paginado li a:hover{
     color: black;
 }
+
+.paginado button{
+    font-size: 7pt;
+    font-weight: 600;
+    color: #fff;
+}
+
+
+.active {
+    color: #ee4800;
+}

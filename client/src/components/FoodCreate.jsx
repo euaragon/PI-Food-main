@@ -54,7 +54,18 @@ export default function FoodCreate() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    createRecipe(inputs);
+
+  // Comprobar si se han ingresado datos en todos los campos
+  const allFieldsFilled = Object.values(inputs).every((value) => value.trim() !== '');
+  
+  if (!allFieldsFilled) {
+    // Mostrar mensaje de error
+    Swal("Por favor, completa todos los campos", "", "error");
+    return;
+  }
+
+  // Enviar el formulario
+  createRecipe(inputs);
   }
 
   return (

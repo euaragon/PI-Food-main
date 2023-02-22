@@ -71,7 +71,7 @@ export default function Detail() {
         <RecipeSummary summary={recipe.summary} />
       
       <h3>Paso a paso!</h3>
-      <p>{recipe.instructions}</p>
+      <p>{recipe.instructions || recipe.steps}</p>
 
       <Footer />
     </div>

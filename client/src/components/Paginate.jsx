@@ -6,13 +6,19 @@ export default function Paginate({recipesPerPage, allRecipes, paginado}) {
     for(let i = 1; i < Math.ceil(allRecipes/recipesPerPage); i++){
         pageNumbers.push(i)
     }
+    
+      const handleClick = (number) => {
+    setCurrentPage(number);
+    paginado(number);
+  };
+
   return (
 
       <nav className="paginado">
         <ul>
             {pageNumbers.map(number => (
                 <li>
-                    <a onClick={() => paginado(number)}>{number}</a>
+                    <a className={currentPage === number ? "active" : ""} onClick={() => handleClick(number)}> {number} </a>
                 </li>
             ))}
         </ul>

@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import {useDispatch} from 'react-redux'
 import { NavLink } from "react-router-dom";
 import {getName} from "../actions/actions"
 import "./css/Searchbar.css";
-import Swal from "sweetalert";
+import swal from "sweetalert";
 
 export default function Searchbar() {
 
-  // useEffect(() => {
-  //   mostrarAlerta();
-  // },[])
 
-  // const mostrarAlerta = () => {
-  //   Swal.fire("mensaje")
-  // }
 
   const dispatch = useDispatch();
   const [name, setName] = useState('');
@@ -26,11 +20,13 @@ export default function Searchbar() {
   }
 
   function handleSubmit(e){
-    if (!e.target.value) {
-      Swal("Escriba algo para mostrar", "", "error");
-      return;
-    }
     e.preventDefault();
+  
+  if (!/^[a-zA-Z0-9]+$/.test(e.target.value || name)) {
+    swal("Falta algo para buscar", "", "error");
+    return;
+  }
+  
     dispatch(getName(name))
   }
 

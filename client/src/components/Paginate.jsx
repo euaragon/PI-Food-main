@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import "./css/Paginate.css";
 
@@ -32,7 +33,7 @@ export default function Paginate({ recipesPerPage, allRecipes, paginado }) {
         </li>
         {pageNumbers.map((number) => (
           <li key={number}>
-            <a
+            <a 
               className={currentPage === number ? "active" : ""}
               onClick={() => {
                 setCurrentPage(number);

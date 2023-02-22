@@ -17,6 +17,11 @@ button{
     justify-content: space-around;
     display: flex;
     flex-wrap: nowrap;
+    transition: all 0.5s ease;
 }
 .logo{float: left;position: relative;padding: 0;}
 .logo:hover{opacity: 0.8;}
+
+.barra.hidden{
+opacity: 0;
+}

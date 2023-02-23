@@ -6,7 +6,6 @@ import Footer from "./Footer";
 //import Swal from "sweetalert";
 
 export default function FoodCreate() {
-
   const [alert, setAlert] = useState({ type: "", message: "" });
 
   function showAlert(type, message) {
@@ -15,13 +14,17 @@ export default function FoodCreate() {
 
   async function createRecipe(userData) {
     try {
-      const response = await fetch("http://localhost:3001/recipes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      await fetch(
+        "http://localhost:3001/recipes",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
         },
-        body: JSON.stringify(userData),
-      });
+        window.alert("Receta creada correctamente!")
+      );
     } catch (error) {
       console.log(error);
       showAlert("error", "Complete todos los campos");
@@ -64,33 +67,35 @@ export default function FoodCreate() {
   function handleSubmit(e) {
     e.preventDefault();
 
-  // Comprobar si se han ingresado datos en todos los campos
-  const allFieldsFilled = Object.values(inputs).every((value) => value.trim() !== '');
-  
-  if (!allFieldsFilled) {
-    // Mostrar mensaje de error
-    showAlert("error", "Por favor, completa todos los campos");
-    return;
-    // Swal("Por favor, completa todos los campos", "", "error");
-    // return;
-  }
+    // Comprobar si se han ingresado datos en todos los campos
+    const allFieldsFilled = Object.values(inputs).every(
+      (value) => value.trim() !== ""
+    );
 
-  // Enviar el formulario
-  createRecipe(inputs);
+    if (!allFieldsFilled) {
+      // Mostrar mensaje de error
+      showAlert("error", "Por favor, completa todos los campos");
+      return;
+      // Swal("Por favor, completa todos los campos", "", "error");
+      // return;
+    } else {
+      showAlert("success", "Receta creada correctamente!");
+      return;
+    }
+
+    // Enviar el formulario
+    createRecipe(inputs);
   }
 
   return (
     <div className="food-create">
-
       <h1>Escribí tu propia receta!</h1>
       {alert.message && (
-    <div className={`create-alert ${alert.type}`}>
-      {alert.message}
-      <button onClick={() => setAlert({ type: "", message: "" })}>
-        x
-      </button>
-    </div>
-  )}
+        <div className={`create-alert ${alert.type}`}>
+          {alert.message}
+          <button onClick={() => setAlert({ type: "", message: "" })}>x</button>
+        </div>
+      )}
       <div className="form">
         <form onSubmit={handleSubmit}>
           <div className="options">
@@ -173,9 +178,8 @@ export default function FoodCreate() {
           <button>AGREGAR</button>
         </form>
       </div>
-      
-      <Footer />
 
+      <Footer />
     </div>
   );
 }

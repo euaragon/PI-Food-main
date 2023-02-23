@@ -52,7 +52,6 @@
     border-radius: 30px;
     font-size: 10pt;
     font-weight: 400;
-    border: 1px solid #dc3545;
 	animation: tiendaNew 2.72s ease infinite;
 	transform-origin: 50% 50%;
 	-webkit-transition: 0.5s ease-out;
@@ -64,12 +63,17 @@
 
   .create-alert.error {
     color: #dc3545;
+    border: 1px solid #dc3545;
   }
  
+  .create-alert.success{
+    color: #1b831f;
+    border: 1px solid #1b831f;
+  }
   .create-alert button{
     margin-left: 20px;
     border-radius: 100%;
-    background-color: #dc3545;
+    background-color: #353535;
     text-align: center;
 
   }

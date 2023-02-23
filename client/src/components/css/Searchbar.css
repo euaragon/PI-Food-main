@@ -36,16 +36,17 @@
 }
 
 .alert {
+    background-color: #ddd7cf;
     display: flex;
     align-items: center;
-    background-color: #ffe6e6;
-    color: #cc0000;
+border: 1px solid #ee4800;
+    color: #ee4800;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 30px;
     position: fixed;
-    top: 53px;
-    right: 45%;
+    top: 45px;
+    right: 50%;
   }
   
   .alert-message {
@@ -54,12 +55,12 @@
   }
   
   .alert-close {
-    background-color: #cc0000;
+    background-color: #ee4800;
     color: #fff;
     border: none;
     border-radius: 100%;
     width: 0;
-    height: 20px;
+    height: 35px;
     font-size: 12px;
     cursor: pointer;
     display: flex;

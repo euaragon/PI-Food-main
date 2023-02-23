@@ -1,13 +1,17 @@
+.buscador{
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
 .buscador a{
     color: #ee4800;
     font-size: 11pt;
     font-weight: 800;
 }
 
-.buscador{
-    position: relative;
-    top: 50px;
-}
 
 .buscador input{
     font-weight: 100;
@@ -30,3 +34,37 @@
 .crear-receta:hover{
     opacity: 0.8;
 }
+
+.alert {
+    display: flex;
+    align-items: center;
+    background-color: #ffe6e6;
+    color: #cc0000;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    position: fixed;
+    top: 53px;
+    right: 45%;
+  }
+  
+  .alert-message {
+    margin-right: 10px;
+    font-size: 10pt;
+  }
+  
+  .alert-close {
+    background-color: #cc0000;
+    color: #fff;
+    border: none;
+    border-radius: 100%;
+    width: 0;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+  }
+  

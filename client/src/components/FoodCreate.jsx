@@ -7,8 +7,12 @@ import Footer from "./Footer";
 
 export default function FoodCreate() {
 
-  const [createdSuccessfully, setCreatedSuccessfully] = useState(false);
-  
+  const [alert, setAlert] = useState({ type: "", message: "" });
+
+  function showAlert(type, message) {
+    setAlert({ type, message });
+  }
+
   async function createRecipe(userData) {
     try {
       const response = await fetch("http://localhost:3001/recipes", {
@@ -18,10 +22,9 @@ export default function FoodCreate() {
         },
         body: JSON.stringify(userData),
       });
-      setCreatedSuccessfully(true);
     } catch (error) {
       console.log(error);
-      window.alert("Error al crear la receta");
+      showAlert("error", "Complete todos los campos");
     }
   }
 
@@ -66,7 +69,8 @@ export default function FoodCreate() {
   
   if (!allFieldsFilled) {
     // Mostrar mensaje de error
-    window.alert("Por favor, completa todos los campos")
+    showAlert("error", "Por favor, completa todos los campos");
+    return;
     // Swal("Por favor, completa todos los campos", "", "error");
     // return;
   }
@@ -79,6 +83,14 @@ export default function FoodCreate() {
     <div className="food-create">
 
       <h1>Escribí tu propia receta!</h1>
+      {alert.message && (
+    <div className={`create-alert ${alert.type}`}>
+      {alert.message}
+      <button onClick={() => setAlert({ type: "", message: "" })}>
+        x
+      </button>
+    </div>
+  )}
       <div className="form">
         <form onSubmit={handleSubmit}>
           <div className="options">
@@ -161,6 +173,7 @@ export default function FoodCreate() {
           <button>AGREGAR</button>
         </form>
       </div>
+      
       <Footer />
 
     </div>

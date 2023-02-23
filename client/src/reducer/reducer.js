@@ -1,5 +1,4 @@
 import {
-  //GET_TYPES,
   GET_RECIPES,
   FILTER_BY_TYPE,
   ORDER_BY_NAME,
@@ -12,7 +11,6 @@ const initialState = {
   recipes: [],
   recetasTotal: [],
   detail: [],
-  type: [],
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -24,11 +22,6 @@ function rootReducer(state = initialState, { type, payload }) {
         recetasTotal: payload,
       };
 
-    // case GET_TYPES:
-    //   return {
-    //     ...state,
-    //     type: payload,
-    //   };
 
     case FILTER_BY_TYPE:
       if(payload === "Todos"){

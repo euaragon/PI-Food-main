@@ -34,7 +34,7 @@
 }
 
 .form {
-   min-height: 1080px;
+   min-height: 660px;
    width: 40%;
     margin: 0 auto;
 }
@@ -46,4 +46,44 @@
 
 .instructions{
     height: 100px;
+}
+
+.create-alert {
+    border-radius: 30px;
+    font-size: 10pt;
+    font-weight: 400;
+    border: 1px solid #dc3545;
+	animation: tiendaNew 2.72s ease infinite;
+	transform-origin: 50% 50%;
+	-webkit-transition: 0.5s ease-out;
+	-moz-transition: 0.5s ease-out;
+	-o-transition: 0.5s ease-out;
+	transition: 0.5s ease-out;
+	display: block;
+  }
+
+  .create-alert.error {
+    color: #dc3545;
+  }
+ 
+  .create-alert button{
+    margin-left: 20px;
+    border-radius: 100%;
+    background-color: #dc3545;
+    text-align: center;
+
+  }
+  
+  
+  
+  
+  @keyframes tiendaNew{
+	0% { transform:translate(0,0) }
+	4.41177% { transform:translate(5px,0) }
+	8.82353% { transform:translate(0,0) }
+	13.23529% { transform:translate(5px,0) }
+	17.64706% { transform:translate(0,0) }
+	22.05882% { transform:translate(5px,0) }
+	26.47059% { transform:translate(0,0) }
+	100% { transform:translate(0,0) }
 }

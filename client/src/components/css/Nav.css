@@ -23,5 +23,5 @@ button{
 .logo:hover{opacity: 0.8;}
 
 .barra.hidden{
-opacity: 0;
+top: -135px;
 }

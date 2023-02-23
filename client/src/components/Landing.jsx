@@ -8,7 +8,7 @@ export default function LandingPage(){
     return (
         <div className="ingresar">
              <img className="logo-landing" src={LogoLanding} alt="Henry Food Logo" width="250"></img>
-             <br />
+          
             <NavLink  to={'/home'}>
             <button className="entrar">ENTRAR</button>
              </NavLink>

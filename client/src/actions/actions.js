@@ -1,6 +1,6 @@
 import axios from 'axios';
 export const GET_RECIPES = 'GET_RECIPES'
-export const GET_TYPES = 'GET_TYPES'
+//export const GET_TYPES = 'GET_TYPES'
 export const GET_DATABASE = 'GET_DATABASE'
 export const FILTER_BY_TYPE = "FILTER_BY_TYPE"
 export const ORDER_BY_NAME = 'ORDER_BY_NAME'
@@ -25,23 +25,23 @@ export function getRecipes(){
     }
 }
 
-export function getTypes() {
-    return function (dispatch) {
-        try {
-            axios.get('http://localhost:3001/diets')
-            .then(types => 
-                {dispatch({
-            type: GET_TYPES,
-            payload: types.data
-            });
-        }
-            )
+// export function getTypes() {
+//     return function (dispatch) {
+//         try {
+//             axios.get('http://localhost:3001/diets')
+//             .then(types => 
+//                 {dispatch({
+//             type: GET_TYPES,
+//             payload: types.data
+//             });
+//         }
+//             )
            
-        } catch (error) {
-            console.log(error);
-        }
-    }
-}
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     }
+// }
 
 export function filterRecipesByType(payload){
     return {

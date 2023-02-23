@@ -1,5 +1,5 @@
 import {
-  GET_TYPES,
+  //GET_TYPES,
   GET_RECIPES,
   FILTER_BY_TYPE,
   ORDER_BY_NAME,
@@ -24,11 +24,11 @@ function rootReducer(state = initialState, { type, payload }) {
         recetasTotal: payload,
       };
 
-    case GET_TYPES:
-      return {
-        ...state,
-        type: payload,
-      };
+    // case GET_TYPES:
+    //   return {
+    //     ...state,
+    //     type: payload,
+    //   };
 
     case FILTER_BY_TYPE:
       if(payload === "Todos"){
@@ -47,36 +47,36 @@ function rootReducer(state = initialState, { type, payload }) {
     case ORDER_BY_NAME:
       let sortedArr =
         payload === "asc"
-          ? state.recipes.sort(function (a, b) {
+          ? [...state.recetasTotal].sort(function (a, b) {
               if (a.name > b.name) return 1;
               if (a.name < b.name) return -1;
               return 0;
             })
-          : state.recipes.sort(function (a, b) {
+          : [...state.recetasTotal].sort(function (a, b) {
               if (a.name > b.name) return -1;
               if (a.name < b.name) return 1;
               return 0;
             });
       return {
         ...state,
-        recipes: sortedArr,
+        recetasTotal: sortedArr,
       };
 
     case ORDER_BY_SCORE:
       let scoreArr = payload === "mas" ?
-      state.recipes.sort(function (a, b) {
+      [...state.recetasTotal].sort(function (a, b) {
         if (a.healthScore > b.healthScore) return -1;
         if (a.healthScore < b.healthScore) return 1;
         return 0;
       }) :
-      state.recipes.sort(function (a, b) {
+      [...state.recetasTotal].sort(function (a, b) {
         if (a.healthScore > b.healthScore) return 1;
         if (a.healthScore < b.healthScore) return -1;
         return 0;
       })
       return {
         ...state,
-        recipes: scoreArr,
+        recetasTotal: scoreArr,
       };
       case GET_DETAILS:
         return{

@@ -3,20 +3,26 @@ import { useState } from "react";
 import validation from "./validation";
 import "./css/FoodCreate.css";
 import Footer from "./Footer";
-import Swal from "sweetalert";
+//import Swal from "sweetalert";
 
 export default function FoodCreate() {
-  async function createRecipe(userData) {
-    const response = await fetch("http://localhost:3001/recipes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-    Swal("Receta creada exitosamente!", "", "success");
-      return;
 
+  const [createdSuccessfully, setCreatedSuccessfully] = useState(false);
+  
+  async function createRecipe(userData) {
+    try {
+      const response = await fetch("http://localhost:3001/recipes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      setCreatedSuccessfully(true);
+    } catch (error) {
+      console.log(error);
+      window.alert("Error al crear la receta");
+    }
   }
 
   const [inputs, setInputs] = useState({
@@ -60,8 +66,9 @@ export default function FoodCreate() {
   
   if (!allFieldsFilled) {
     // Mostrar mensaje de error
-    Swal("Por favor, completa todos los campos", "", "error");
-    return;
+    window.alert("Por favor, completa todos los campos")
+    // Swal("Por favor, completa todos los campos", "", "error");
+    // return;
   }
 
   // Enviar el formulario
@@ -70,6 +77,7 @@ export default function FoodCreate() {
 
   return (
     <div className="food-create">
+
       <h1>Escribí tu propia receta!</h1>
       <div className="form">
         <form onSubmit={handleSubmit}>
@@ -154,6 +162,7 @@ export default function FoodCreate() {
         </form>
       </div>
       <Footer />
+
     </div>
   );
 }

@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux'
 import { NavLink } from "react-router-dom";
 import {getName} from "../actions/actions"
 import "./css/Searchbar.css";
-import swal from "sweetalert";
+//import swal from "sweetalert";
 
 export default function Searchbar() {
 
@@ -23,7 +23,8 @@ export default function Searchbar() {
     e.preventDefault();
   
   if (!/^[a-zA-Z0-9]+$/.test(e.target.value || name)) {
-    swal("Falta algo para buscar", "", "error");
+    //swal("Falta algo para buscar", "", "error");
+    window.alert("Falta algo que buscar")
     return;
   }
   

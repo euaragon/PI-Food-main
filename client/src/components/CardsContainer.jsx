@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getRecipes,
-  getTypes,
+  //getTypes,
   filterRecipesByType,
   orderByName,
   orderByScore,
@@ -47,9 +47,9 @@ export default function CardsContainer() {
     dispatch(getRecipes()); //esto es lo mismo que hacer el mapDispatchToProps
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getTypes());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getTypes());
+  // }, []);
 
   function handleClick(e) {
     e.preventDefault();

@@ -10,8 +10,6 @@ import Detail from './components/Detail'
 function App() {
   const location = useLocation()
 
-
-
   return (
 
     <div className="App">

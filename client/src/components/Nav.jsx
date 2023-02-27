@@ -22,7 +22,7 @@ export default function Nav(props) {
 
   return (
     <div className={`barra ${hidden ? 'hidden' : ''}`}>
-      <NavLink className="logo" to={'/home'}>
+      <NavLink className="logo" to={'/'}>
         <img src={Logo} alt="Logo Henry Food Home" width="140"></img>
       </NavLink>
 

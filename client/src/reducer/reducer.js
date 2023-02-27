@@ -5,6 +5,7 @@ import {
   ORDER_BY_SCORE,
   GET_DETAILS,
   GET_NAME,
+  SEARCH_BY_NAME,
 } from "../actions/actions";
 
 const initialState = {
@@ -22,21 +23,18 @@ function rootReducer(state = initialState, { type, payload }) {
         recetasTotal: payload,
       };
 
-
     case FILTER_BY_TYPE:
-      if(payload === "Todos"){
+      if (payload === "Todos") {
         return {
           ...state,
           recetasTotal: state.recipes,
         };
-      } 
-        return {
-          ...state,
-          recetasTotal: state.recipes.filter(e => e.diets.includes(payload)),
-        };
-  
-      
-      
+      }
+      return {
+        ...state,
+        recetasTotal: state.recipes.filter((e) => e.diets.includes(payload)),
+      };
+
     case ORDER_BY_NAME:
       let sortedArr =
         payload === "asc"
@@ -56,32 +54,50 @@ function rootReducer(state = initialState, { type, payload }) {
       };
 
     case ORDER_BY_SCORE:
-      let scoreArr = payload === "mas" ?
-      [...state.recetasTotal].sort(function (a, b) {
-        if (a.healthScore > b.healthScore) return -1;
-        if (a.healthScore < b.healthScore) return 1;
-        return 0;
-      }) :
-      [...state.recetasTotal].sort(function (a, b) {
-        if (a.healthScore > b.healthScore) return 1;
-        if (a.healthScore < b.healthScore) return -1;
-        return 0;
-      })
+      let scoreArr =
+        payload === "mas"
+          ? [...state.recetasTotal].sort(function (a, b) {
+              if (a.healthScore > b.healthScore) return -1;
+              if (a.healthScore < b.healthScore) return 1;
+              return 0;
+            })
+          : [...state.recetasTotal].sort(function (a, b) {
+              if (a.healthScore > b.healthScore) return 1;
+              if (a.healthScore < b.healthScore) return -1;
+              return 0;
+            });
       return {
         ...state,
         recetasTotal: scoreArr,
       };
-      case GET_DETAILS:
-        return{
+      
+    case GET_DETAILS:
+      return {
+        ...state,
+        detail: payload,
+      };
+
+      case GET_NAME:
+        return {
           ...state,
-          detail: payload
-        }
-        case GET_NAME:
-          return{
-            ...state,
-            recipes: payload,
-            recetasTotal: payload
-          }
+          recetasTotal: state.recipes.filter(
+            (recipe) =>
+              recipe.name.toLowerCase().includes(payload) ||
+              recipe.name.toLowerCase().startsWith(payload) ||
+              recipe.name.toLowerCase().endsWith(payload)
+          ),
+        };
+      
+
+    case SEARCH_BY_NAME:
+      const searchTerm = payload.toLowerCase();
+      const filteredByName = state.recipes.filter((recipe) =>
+        recipe.name.toLowerCase().includes(searchTerm)
+      );
+      return {
+        ...state,
+        recetasTotal: filteredByName,
+      };
     default:
       return state;
   }

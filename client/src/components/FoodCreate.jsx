@@ -3,9 +3,12 @@ import { useState } from "react";
 import validation from "./validation";
 import "./css/FoodCreate.css";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 //import Swal from "sweetalert";
 
 export default function FoodCreate() {
+  
+const navigate = useNavigate();
   const [alert, setAlert] = useState({ type: "", message: "" });
 
   function showAlert(type, message) {
@@ -22,8 +25,10 @@ export default function FoodCreate() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(userData),
+          
         },
-        window.alert("Receta creada correctamente!")
+        showAlert("success","Receta creada correctamente!")
+        
       );
     } catch (error) {
       console.log(error);
@@ -66,25 +71,21 @@ export default function FoodCreate() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
+  
     // Comprobar si se han ingresado datos en todos los campos
     const allFieldsFilled = Object.values(inputs).every(
       (value) => value.trim() !== ""
     );
-
+  
     if (!allFieldsFilled) {
       // Mostrar mensaje de error
       showAlert("error", "Por favor, completa todos los campos");
       return;
-      // Swal("Por favor, completa todos los campos", "", "error");
-      // return;
-    } else {
-      showAlert("success", "Receta creada correctamente!");
-      return;
     }
-
+  
     // Enviar el formulario
     createRecipe(inputs);
+    navigate('/home')
   }
 
   return (

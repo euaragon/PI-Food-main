@@ -6,6 +6,7 @@ export const ORDER_BY_NAME = 'ORDER_BY_NAME'
 export const ORDER_BY_SCORE = 'ORDER_BY_SCORE'
 export const GET_DETAILS = 'GET_DETAILS'
 export const GET_NAME = 'GET_NAME'
+export const SEARCH_BY_NAME = 'SEARCH_BY_NAME'
 
 
 export function getRecipes(){
@@ -74,6 +75,13 @@ export function getName(name){
         }
     }
 }
+
+export function searchByName(name) {
+    return {
+      type: SEARCH_BY_NAME,
+      payload: name,
+    };
+  }
 
 export function postRecipes(payload){
     return async function(dispatch) {

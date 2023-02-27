@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { getName } from "../actions/actions";
+import { getName, searchByName } from "../actions/actions";
 import "./css/Searchbar.css";
 
 export default function Searchbar() {
@@ -21,12 +21,8 @@ export default function Searchbar() {
       return;
     }
 
-    if (!/^[a-zA-Z0-9]+$/.test(name)) {
-      setAlertMessage("El término de búsqueda solo puede contener letras y números");
-      return;
-    }
 
-    dispatch(getName(name));
+    dispatch(searchByName(name.toLowerCase().trim())); //lo pasamos a minusculas y elminiamos los espacios en blanco
   }
 
   return (

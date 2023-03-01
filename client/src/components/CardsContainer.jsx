@@ -79,11 +79,7 @@ export default function CardsContainer() {
 
   return (
     <div className="container">
-      <Paginate
-        recipesPerPage={recipesPerPage}
-        allRecipes={allRecipes.length}
-        paginado={paginado}
-      />
+      
       <div className="filtros">
         <select defaultValue="Orden" onChange={(e) => handleOrderByName(e)}>
           <option disabled>Orden</option>
@@ -116,6 +112,11 @@ export default function CardsContainer() {
           Todos
         </button>
       </div>
+      <Paginate
+        recipesPerPage={recipesPerPage}
+        allRecipes={allRecipes.length}
+        paginado={paginado}
+      />
       {currentRecipe?.map((e) => {
         return (
           <Card

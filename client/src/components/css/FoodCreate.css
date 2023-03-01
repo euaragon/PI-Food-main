@@ -79,15 +79,32 @@
   }
   
   
-  
-  
-  @keyframes tiendaNew{
-	0% { transform:translate(0,0) }
-	4.41177% { transform:translate(5px,0) }
-	8.82353% { transform:translate(0,0) }
-	13.23529% { transform:translate(5px,0) }
-	17.64706% { transform:translate(0,0) }
-	22.05882% { transform:translate(5px,0) }
-	26.47059% { transform:translate(0,0) }
-	100% { transform:translate(0,0) }
-}
+  .food-create a {
+    cursor: pointer;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 40px;
+    position: relative;
+        background: #802599 !important;
+        color: #ffffff;
+        font-size: 14pt;
+        font-weight: bold;
+        text-align: center;
+        top: 30px;
+      }
+
+      .food-create a:hover{
+        opacity: 0.9;
+      }
+
+
+      @keyframes tiendaNew{
+        0% { transform:translate(0,0) }
+        4.41177% { transform:translate(5px,0) }
+        8.82353% { transform:translate(0,0) }
+        13.23529% { transform:translate(5px,0) }
+        17.64706% { transform:translate(0,0) }
+        22.05882% { transform:translate(5px,0) }
+        26.47059% { transform:translate(0,0) }
+        100% { transform:translate(0,0) }
+    }

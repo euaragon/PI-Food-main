@@ -3,12 +3,11 @@ import { useState } from "react";
 import validation from "./validation";
 import "./css/FoodCreate.css";
 import Footer from "./Footer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 //import Swal from "sweetalert";
 
 export default function FoodCreate() {
   
-const navigate = useNavigate();
   const [alert, setAlert] = useState({ type: "", message: "" });
 
   function showAlert(type, message) {
@@ -27,8 +26,8 @@ const navigate = useNavigate();
           body: JSON.stringify(userData),
           
         },
-        showAlert("success","Receta creada correctamente!")
-        
+        showAlert("success","Receta creada correctamente!"),
+    
       );
     } catch (error) {
       console.log(error);
@@ -85,7 +84,7 @@ const navigate = useNavigate();
   
     // Enviar el formulario
     createRecipe(inputs);
-    navigate('/home')
+    
   }
 
   return (
@@ -178,6 +177,9 @@ const navigate = useNavigate();
           </div>
           <button>AGREGAR</button>
         </form>
+        <NavLink className="volver" to={"/home"}>
+        volver al inicio
+      </NavLink>
       </div>
 
       <Footer />

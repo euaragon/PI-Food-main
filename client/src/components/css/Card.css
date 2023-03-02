@@ -25,9 +25,11 @@
 }
 
 .carta img {
+  overflow: hidden;
   width: 300px;
   position: relative;
-  top: 7px;
+  top: -30%;
+  
 }
 
 .carta p {
@@ -55,7 +57,8 @@
   margin: 0 auto;
   padding: 0 20px;
 }
-.carta a {
-  text-decoration: none;
-  color: #ee4800;
+.ir-a {
+  height: 200px !important;
+  float: left;
+  overflow:hidden;
 }

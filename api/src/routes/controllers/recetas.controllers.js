@@ -18,7 +18,7 @@ const getApiInfo = async (name) => {
   const responseAPI = await axios(
     `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`
   );
-console.log(responseAPI);
+
   let recipes = responseAPI.data.results.map((recipe) => {
     const diets = recipe.diets.length > 1 ? recipe.diets.map(d => `${d[0].toUpperCase()}${d.substring(1)}`) : ["Ninguna"]
     let newRecipe = {
